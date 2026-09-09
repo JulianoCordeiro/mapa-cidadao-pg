@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Mapa Cidadão PG</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Leaflet -->
+    <link
+        rel="stylesheet"
+        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    >
+
+    <script
+        src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
+    </script>
+</head>
+
+<body>
+
+    <!-- CABEÇALHO -->
+
+    <header>
+        <div class="container header-container">
+
+            <div class="logo">
+                <span>📍</span>
+
+                <div>
+                    <h1>Mapa Cidadão PG</h1>
+                    <p>Ponta Grossa - Paraná</p>
+                </div>
+            </div>
+
+            <!-- Botão do menu mobile -->
+            <button
+                class="menu-toggle"
+                id="menuToggle"
+                aria-label="Abrir menu"
+                aria-expanded="false"
+            >
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <nav id="menuNav">
+                <a href="#inicio">Início</a>
+                <a href="#mapa-section">Mapa</a>
+                <a href="#registrar">Registrar</a>
+                <a href="#ocorrencias">Ocorrências</a>
+            </nav>
+
+        </div>
+    </header>
+
+
+    <!-- APRESENTAÇÃO -->
+
+    <section id="inicio" class="hero">
+
+        <div class="container hero-content">
+
+            <div class="hero-text">
+
+                <span class="tag">
+                    PARTICIPAÇÃO CIDADÃ
+                </span>
+
+                <h2>
+                    Ajude a melhorar
+                    <strong>Ponta Grossa</strong>
+                </h2>
+
+                <p>
+                    Registre problemas de iluminação pública,
+                    asfalto ou calçadas encontrados na cidade.
+                    Sua participação ajuda a mapear os locais
+                    que precisam de atenção.
+                </p>
+
+                <a href="#registrar" class="btn-primary">
+                    Registrar problema
+                </a>
+
+            </div>
+
+            <div class="hero-card">
+
+                <div class="hero-icon">
+                    🏙️
+                </div>
+
+                <h3>Uma cidade melhor começa com participação</h3>
+
+                <p>
+                    Fotografe, localize e informe um problema
+                    encontrado no espaço urbano.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- CONTADORES -->
+
+    <section class="estatisticas">
+
+        <div class="container stats-grid">
+
+            <div class="stat-card">
+                <span id="totalOcorrencias">0</span>
+                <p>Ocorrências</p>
+            </div>
+
+            <div class="stat-card">
+                <span id="totalIluminacao">0</span>
+                <p>Iluminação</p>
+            </div>
+
+            <div class="stat-card">
+                <span id="totalAsfalto">0</span>
+                <p>Asfalto</p>
+            </div>
+
+            <div class="stat-card">
+                <span id="totalCalcada">0</span>
+                <p>Calçadas</p>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- MAPA -->
+
+    <section id="mapa-section" class="section">
+
+        <div class="container">
+
+            <div class="section-title">
+
+                <span>MAPA COLABORATIVO</span>
+
+                <h2>Ocorrências em Ponta Grossa</h2>
+
+                <p>
+                    Os pontos registrados pela comunidade
+                    são apresentados no mapa abaixo.
+                </p>
+
+            </div>
+
+
+            <div class="filtros">
+
+                <button class="filtro ativo" data-filtro="todos">
+                    Todos
+                </button>
+
+                <button class="filtro" data-filtro="Iluminação Pública">
+                    💡 Iluminação
+                </button>
+
+                <button class="filtro" data-filtro="Asfalto">
+                    🚧 Asfalto
+                </button>
+
+                <button class="filtro" data-filtro="Calçada">
+                    🚶 Calçadas
+                </button>
+
+            </div>
+
+
+            <div id="map"></div>
+
+        </div>
+
+    </section>
+
+
+    <!-- FORMULÁRIO -->
+
+    <section id="registrar" class="section section-light">
+
+        <div class="container">
+
+            <div class="section-title">
+
+                <span>NOVA OCORRÊNCIA</span>
+
+                <h2>Registrar um problema</h2>
+
+                <p>
+                    Informe os dados abaixo e indique no mapa
+                    onde o problema foi encontrado.
+                </p>
+
+            </div>
+
+
+            <div class="form-container">
+
+                <form id="formOcorrencia">
+
+                    <!-- Categoria -->
+
+                    <div class="form-group">
+
+                        <label for="categoria">
+                            Categoria *
+                        </label>
+
+                        <select id="categoria" required>
+
+                            <option value="">
+                                Selecione uma categoria
+                            </option>
+
+                            <option value="Iluminação Pública">
+                                Iluminação Pública
+                            </option>
+
+                            <option value="Asfalto">
+                                Asfalto
+                            </option>
+
+                            <option value="Calçada">
+                                Calçada
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- Tipo -->
+
+                    <div class="form-group">
+
+                        <label for="tipoProblema">
+                            Tipo do problema *
+                        </label>
+
+                        <select id="tipoProblema" required>
+
+                            <option value="">
+                                Primeiro selecione uma categoria
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- Bairro -->
+
+                    <div class="form-group">
+
+                        <label for="bairro">
+                            Bairro
+                        </label>
+
+                        <input
+                            type="text"
+                            id="bairro"
+                            placeholder="Ex.: Uvaranas"
+                        >
+
+                    </div>
+
+
+                    <!-- Descrição -->
+
+                    <div class="form-group">
+
+                        <label for="descricao">
+                            Descrição *
+                        </label>
+
+                        <textarea
+                            id="descricao"
+                            rows="4"
+                            maxlength="250"
+                            placeholder="Descreva brevemente o problema encontrado..."
+                            required>
+                        </textarea>
+
+                        <small>
+                            Máximo de 250 caracteres.
+                        </small>
+
+                    </div>
+
+
+                    <!-- Foto -->
+
+                    <div class="form-group">
+
+                        <label for="foto">
+                            Foto do problema
+                        </label>
+
+                        <input
+                            type="file"
+                            id="foto"
+                            accept="image/*"
+                        >
+
+                        <div id="previewContainer" class="preview-container">
+
+                            <img
+                                id="previewFoto"
+                                alt="Pré-visualização da imagem"
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Localização -->
+
+                    <div class="form-group">
+
+                        <label>
+                            Localização *
+                        </label>
+
+                        <p class="help-text">
+                            Clique no mapa abaixo para indicar
+                            onde o problema foi encontrado.
+                        </p>
+
+                        <button
+                            type="button"
+                            id="btnLocalizacao"
+                            class="btn-secondary">
+                            📍 Usar minha localização
+                        </button>
+
+                    </div>
+
+
+                    <div id="mapCadastro"></div>
+
+
+                    <div class="coordenadas">
+
+                        <div>
+                            <label>Latitude</label>
+                            <input id="latitude" readonly required>
+                        </div>
+
+                        <div>
+                            <label>Longitude</label>
+                            <input id="longitude" readonly required>
+                        </div>
+
+                    </div>
+
+
+                    <button
+                        type="submit"
+                        class="btn-primary btn-submit">
+                        Enviar ocorrência
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- LISTA -->
+
+    <section id="ocorrencias" class="section">
+
+        <div class="container">
+
+            <div class="section-title">
+
+                <span>COMUNIDADE</span>
+
+                <h2>Ocorrências registradas</h2>
+
+                <p>
+                    Consulte os problemas cadastrados pelos usuários.
+                </p>
+
+            </div>
+
+
+            <div id="listaOcorrencias" class="ocorrencias-grid">
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- SOBRE -->
+
+    <section class="sobre">
+
+        <div class="container">
+
+            <h2>Sobre o projeto</h2>
+
+            <p>
+                O Mapa Cidadão PG é um projeto acadêmico desenvolvido
+                com o objetivo de utilizar a tecnologia para incentivar
+                a participação da comunidade na identificação de problemas
+                relacionados à infraestrutura urbana de Ponta Grossa.
+            </p>
+
+            <p>
+                A plataforma contempla ocorrências de iluminação pública,
+                pavimentação asfáltica e condições das calçadas.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- RODAPÉ -->
+
+    <footer>
+
+        <div class="container">
+
+            <h3>Mapa Cidadão PG</h3>
+
+            <p>
+                Projeto acadêmico de Análise e Desenvolvimento de Sistemas
+            </p>
+
+            <p class="copyright">
+                © 2026 - Ponta Grossa - Paraná
+            </p>
+
+        </div>
+
+    </footer>
+
+
+    <!-- MENSAGEM -->
+
+    <div id="toast" class="toast">
+        Ocorrência cadastrada com sucesso!
+    </div>
+
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
