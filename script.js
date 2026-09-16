@@ -2211,6 +2211,53 @@ function configurarFormulario() {
     }
 }
 
+// =========================================================
+// NAVEGAÇÃO - INÍCIO / VOLTAR AO TOPO
+// =========================================================
+
+function configurarNavegacaoTopo() {
+
+    const linksTopo = document.querySelectorAll(
+        'a[href="#inicio"]'
+    );
+
+    linksTopo.forEach(function (link) {
+
+        link.addEventListener(
+            "click",
+            function (evento) {
+
+                evento.preventDefault();
+
+                window.scrollTo({
+                    top: 0,
+                    left: 0,
+                    behavior: "smooth"
+                });
+
+                // Fecha o menu mobile, caso esteja aberto
+                if (menuNav) {
+                    menuNav.classList.remove("ativo");
+                }
+
+                if (menuToggle) {
+
+                    menuToggle.classList.remove("ativo");
+
+                    menuToggle.setAttribute(
+                        "aria-expanded",
+                        "false"
+                    );
+
+                    menuToggle.setAttribute(
+                        "aria-label",
+                        "Abrir menu"
+                    );
+                }
+            }
+        );
+    });
+}
 
 // =========================================================
 // 34. ATUALIZAÇÃO EM TEMPO REAL
@@ -2284,6 +2331,8 @@ async function iniciarAplicacao() {
         configurarFiltroStatus();
 
         configurarMenuMobile();
+
+        configurarNavegacaoTopo();
 
         atualizarContadorDescricao();
 
